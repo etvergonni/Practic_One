@@ -1,12 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
+using System.Text.Json;
 
-namespace ConsoleApp4.Management
+public void SaveToFile(string path)
 {
-    internal class ManagmentMethods
+    var json = JsonSerializer.Serialize(students);
+    File.WriteAllText(path, json);
+}
+
+public void LoadFromFile(string path)
+{
+    if (File.Exists(path))
     {
+        var json = File.ReadAllText(path);
+        students = JsonSerializer.Deserialize<List<Student>>(json);
     }
 }
