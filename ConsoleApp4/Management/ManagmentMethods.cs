@@ -1,17 +1,22 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text.Json;
 
-public void SaveToFile(string path)
+public static class ManagmentMethods
 {
-    var json = JsonSerializer.Serialize(students);
-    File.WriteAllText(path, json);
-}
-
-public void LoadFromFile(string path)
-{
-    if (File.Exists(path))
+    public static void SaveToFile(List<Student> students, string path)
     {
+        var options = new JsonSerializerOptions { WriteIndented = true };
+        var json = JsonSerializer.Serialize(students, options);
+        File.WriteAllText(path, json);
+    }
+
+    public static List<Student>? LoadFromFile(string path)
+    {
+        if (!File.Exists(path))
+            return null;
+
         var json = File.ReadAllText(path);
-        students = JsonSerializer.Deserialize<List<Student>>(json);
+        return JsonSerializer.Deserialize<List<Student>>(json);
     }
 }
